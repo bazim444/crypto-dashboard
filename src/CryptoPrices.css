@@ -1,0 +1,87 @@
+.crypto-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: hsl(0, 0%, 6%);
+  min-height: 100vh;
+  color: white;
+  width: 100%;
+}
+
+.crypto-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: #f0b90b;
+}
+
+.crypto-grid {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* LEFT SIDE */
+.crypto-left {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+  max-width: 400px;
+}
+
+/* RIGHT SIDE */
+.crypto-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+  max-width: 400px;
+}
+
+.crypto-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.crypto-card.empty {
+  border: 1px dashed #444;
+  background-color: #181818;
+  opacity: 0.6;
+}
+
+.crypto-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.crypto-price {
+  font-size: 18px;
+  color: #00c896;
+  font-weight: bold;
+}
+
+.coming-soon {
+  color: #f0b90b;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.loading {
+  text-align: center;
+  color: #f0b90b;
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  font-size: 18px;
+  margin-top: 50px;
+}
