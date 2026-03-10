@@ -6,7 +6,24 @@
   color: white;
   width: 100%;
 }
-
+.card-badge {
+  background-color: #efebdd;
+  color: #000;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.forex-native {
+  background-color: #efebdd;
+  color: #000;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-weight: bold;
+}
 .crypto-title {
   text-align: center;
   margin-bottom: 30px;
@@ -14,10 +31,11 @@
   color: #f0b90b;
 }
 
-.crypto-grid {
-  display: flex;
-  gap: 40px;
-  justify-content: center;
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
 }
 
 /* LEFT SIDE */
