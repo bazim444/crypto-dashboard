@@ -258,37 +258,26 @@ const CryptoPrices = () => {
         </div>
       </div>
 
-      {/* ✅ Subscribe Section */}
-      <div className="subscribe-section">
-        <p className="subscribe-label">📲 Get Hourly Market Signals on Telegram</p>
-        <p className="subscribe-hint">
-          ⚠️ Start <a href="https://t.me/cryptodashlive_bot" target="_blank" rel="noreferrer" style={{color: "#f0b90b"}}>@cryptodashlive_bot</a> on Telegram first!
-        </p>
-        <div className="subscribe-row">
-          <input
-            type="text"
-            className="subscribe-input"
-            placeholder="Phone with country code (e.g. 00971555123456)"
-            value={phoneInput}
-            onChange={(e) => setPhoneInput(e.target.value)}
-          />
-        </div>
-        <div className="subscribe-row" style={{marginTop: 8}}>
-          <input
-            type="text"
-            className="subscribe-input"
-            placeholder="Telegram username (e.g. @basim444)"
-            value={telegramInput}
-            onChange={(e) => setTelegramInput(e.target.value)}
-          />
-          <button
-            className="subscribe-btn"
-            onClick={saveNumber}
-          >
-            {subscribed ? "✅ Done!" : "Subscribe"}
-          </button>
-        </div>
-      </div>
+   
+   {/* Subscribe Section */}
+<div className="subscribe-section">
+  <p className="subscribe-label">📲 Get Hourly Market Signals on Telegram</p>
+  <p className="subscribe-hint">Click the button below and send /start to subscribe — no registration needed!</p>
+  <a
+    href="https://t.me/cryptodashlive_bot"
+    target="_blank"
+    rel="noreferrer"
+    className="telegram-subscribe-btn"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style={{marginRight: 8}}>
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.022 9.531c-.149.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.127 14.39l-2.948-.924c-.64-.203-.654-.64.136-.948l11.527-4.448c.535-.194 1.003.131.72.178z"/>
+    </svg>
+    Subscribe on @cryptodashlive_bot
+  </a>
+</div>
+       
+      
+     
 
       <div className="dashboard-footer">
         <p>Auto refreshes every 30 seconds • Data from CoinGecko, Yahoo Finance, ExchangeRate API</p>
