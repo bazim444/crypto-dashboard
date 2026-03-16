@@ -96,25 +96,40 @@ const CryptoPrices = () => {
 
   // ✅ Fixed saveNumber function
   const saveNumber = async () => {
-    if (!phoneInput || phoneInput.length < 10) {
-      alert("Please enter a valid phone number");
-      return;
-    }
-    try {
-      await axios.post("https://cryptoproxy.onrender.com/api/save-number", {
+  if (!phoneInput || phoneInput.length < 10) {
+    alert("Please enter a valid phone number");
+    return;
+  }
+  try {
+    // Step 1 - Save number
+    const response = await fetch("https://cryptoproxy.onrender.com/api/save-number", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         phone: phoneInput,
         name: "Dashboard Subscriber",
         telegram: "N/A",
         telegramId: "N/A"
+      })
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      // Step 2 - Trigger signal immediately
+      await fetch("https://cryptoproxy.onrender.com/api/send-signal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
       });
+
       setSubscribed(true);
       setPhoneInput("");
-      alert("✅ Subscribed! You will receive hourly signals.");
-    } catch (err) {
-      console.error("Subscribe error:", err);
-      alert("Failed to subscribe. Try again.");
+      alert("✅ Subscribed! Check your Telegram for the first signal!");
     }
-  };
+  } catch (err) {
+    console.error("Subscribe error:", err);
+    alert("Failed to subscribe. Try again.");
+  }
+};
 
   useEffect(() => {
     fetchPrices();
