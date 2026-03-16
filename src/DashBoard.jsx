@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./CryptoPrices.css";
-import axios from "axios";
 
 const CryptoPrices = () => {
   const [prices, setPrices] = useState(null);
@@ -11,6 +10,7 @@ const CryptoPrices = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [phoneInput, setPhoneInput] = useState("");
+  const [telegramInput, setTelegramInput] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
   const fetchPrices = async () => {
@@ -30,9 +30,7 @@ const CryptoPrices = () => {
 
   const fetchGold = async () => {
     try {
-      const response = await fetch(
-        "https://cryptoproxy.onrender.com/api/gold"
-      );
+      const response = await fetch("https://cryptoproxy.onrender.com/api/gold");
       const data = await response.json();
       const goldUSD = data.chart.result[0].meta.regularMarketPrice;
       const goldAED = (goldUSD * 3.67).toFixed(2);
@@ -70,11 +68,9 @@ const CryptoPrices = () => {
         fetch("https://cryptoproxy.onrender.com/api/equity/DIB.DFM"),
         fetch("https://cryptoproxy.onrender.com/api/equity/EMIRATES.DFM"),
       ]);
-
       const emaarData = await emaarRes.json();
       const dibData = await dibRes.json();
       const emiratesData = await emiratesRes.json();
-
       setEquity({
         emaar: {
           price: emaarData.chart.result?.[0]?.meta?.regularMarketPrice ?? "N/A",
@@ -94,56 +90,50 @@ const CryptoPrices = () => {
     }
   };
 
-  // ✅ Fixed saveNumber function
   const saveNumber = async () => {
-  if (!phoneInput || phoneInput.length < 10) {
-    alert("Please enter a valid phone number");
-    return;
-  }
-  try {
-    // Step 1 - Save number
-    const response = await fetch("https://cryptoproxy.onrender.com/api/save-number", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        phone: phoneInput,
-        name: "Dashboard Subscriber",
-        telegram: "N/A",
-        telegramId: "N/A"
-      })
-    });
-    const data = await response.json();
-
-    if (data.success) {
-      // Step 2 - Trigger signal immediately
-      await fetch("https://cryptoproxy.onrender.com/api/send-signal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-      });
-
-      setSubscribed(true);
-      setPhoneInput("");
-      alert("✅ Subscribed! Check your Telegram for the first signal!");
+    if (!phoneInput || phoneInput.length < 6) {
+      alert("Please enter a valid phone number with country code");
+      return;
     }
-  } catch (err) {
-    console.error("Subscribe error:", err);
-    alert("Failed to subscribe. Try again.");
-  }
-};
+    if (!telegramInput) {
+      alert("Please enter your Telegram username");
+      return;
+    }
+    try {
+      const response = await fetch("https://cryptoproxy.onrender.com/api/save-number", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: phoneInput,
+          name: "Dashboard Subscriber",
+          telegram: `@${telegramInput.replace("@", "")}`,
+          telegramId: "N/A"
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setSubscribed(true);
+        setPhoneInput("");
+        setTelegramInput("");
+        alert("✅ Subscribed! You will receive hourly signals on Telegram.\n\n⚠️ Make sure to start @cryptodashlive_bot on Telegram first!");
+      }
+    } catch (err) {
+      console.error("Subscribe error:", err);
+      alert("Failed to subscribe. Try again.");
+    }
+  };
 
   useEffect(() => {
     fetchPrices();
     fetchGold();
     fetchForex();
     fetchEquity();
-
     const interval = setInterval(() => {
       fetchPrices();
       fetchGold();
       fetchForex();
       fetchEquity();
     }, 30000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -187,7 +177,7 @@ const CryptoPrices = () => {
             </div>
           </div>
 
-          {/* CARD 3 - FOREX */}
+          {/* CARD 2 - FOREX */}
           <div className="card">
             <div className="card-header forex-header">
               <h2>💱 Forex</h2>
@@ -210,7 +200,7 @@ const CryptoPrices = () => {
             </div>
           </div>
 
-          {/* CARD 2 - GOLD */}
+          {/* CARD 3 - GOLD */}
           <div className="card">
             <div className="card-header gold-header">
               <h2>🥇 Gold</h2>
@@ -271,19 +261,31 @@ const CryptoPrices = () => {
       {/* ✅ Subscribe Section */}
       <div className="subscribe-section">
         <p className="subscribe-label">📲 Get Hourly Market Signals on Telegram</p>
+        <p className="subscribe-hint">
+          ⚠️ Start <a href="https://t.me/cryptodashlive_bot" target="_blank" rel="noreferrer" style={{color: "#f0b90b"}}>@cryptodashlive_bot</a> on Telegram first!
+        </p>
         <div className="subscribe-row">
           <input
             type="text"
             className="subscribe-input"
-            placeholder="Enter your phone number..."
+            placeholder="Phone with country code (e.g. 00971555123456)"
             value={phoneInput}
             onChange={(e) => setPhoneInput(e.target.value)}
+          />
+        </div>
+        <div className="subscribe-row" style={{marginTop: 8}}>
+          <input
+            type="text"
+            className="subscribe-input"
+            placeholder="Telegram username (e.g. @basim444)"
+            value={telegramInput}
+            onChange={(e) => setTelegramInput(e.target.value)}
           />
           <button
             className="subscribe-btn"
             onClick={saveNumber}
           >
-            {subscribed ? "✅ Subscribed!" : "Subscribe"}
+            {subscribed ? "✅ Done!" : "Subscribe"}
           </button>
         </div>
       </div>
